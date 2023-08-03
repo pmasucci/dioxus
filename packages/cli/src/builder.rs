@@ -4,6 +4,7 @@ use crate::{
     tools::Tool,
     DioxusConfig,
 };
+use anyhow::Context;
 use cargo_metadata::{diagnostic::Diagnostic, Message};
 use indicatif::{ProgressBar, ProgressStyle};
 use serde::Serialize;
@@ -307,7 +308,8 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
     if !config.out_dir.is_dir() {
         create_dir_all(&config.out_dir)?;
     }
-    copy(res_path, &config.out_dir.join(target_file))?;
+    copy(res_path, &config.out_dir.join(target_file))
+        .with_context(|| format!("failed copying {}", target_file))?;
 
     // this code will copy all public file to the output dir
     if config.asset_dir.is_dir() {
@@ -323,7 +325,8 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
         for entry in std::fs::read_dir(&config.asset_dir)? {
             let path = entry?.path();
             if path.is_file() {
-                std::fs::copy(&path, &config.out_dir.join(path.file_name().unwrap()))?;
+                std::fs::copy(&path, &config.out_dir.join(path.file_name().unwrap()))
+                    .with_context(|| format!("failed second copy with {}", path))?;
             } else {
                 match fs_extra::dir::copy(&path, &config.out_dir, &copy_options) {
                     Ok(_) => {}
