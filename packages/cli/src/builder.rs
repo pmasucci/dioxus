@@ -326,7 +326,7 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
             let path = entry?.path();
             if path.is_file() {
                 std::fs::copy(&path, &config.out_dir.join(path.file_name().unwrap()))
-                    .with_context(|| format!("failed second copy with {}", path))?;
+                    .with_context(|| format!("failed second copy with {:?}", path))?;
             } else {
                 match fs_extra::dir::copy(&path, &config.out_dir, &copy_options) {
                     Ok(_) => {}
