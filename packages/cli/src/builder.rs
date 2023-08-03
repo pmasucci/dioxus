@@ -249,7 +249,7 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
     let t_start = std::time::Instant::now();
     let ignore_files = build_assets(config)?;
 
-    let mut cmd = subprocess::Exec::cmd("cargo")
+    let mut cmd = subprocess::Exec::cmd("cross")
         .cwd(&config.crate_dir)
         .arg("build")
         .arg("--message-format=json");
