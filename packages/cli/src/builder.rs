@@ -289,7 +289,11 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
     let mut res_path = match &config.executable {
         crate::ExecutableType::Binary(name) | crate::ExecutableType::Lib(name) => {
             file_name = name.clone();
-            config.target_dir.join(release_type).join(name)
+            config
+                .target_dir
+                .join("x86_64-pc-windows-msvc")
+                .join(release_type)
+                .join(name)
         }
         crate::ExecutableType::Example(name) => {
             file_name = name.clone();
