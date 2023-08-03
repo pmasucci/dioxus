@@ -300,13 +300,10 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
         }
     };
 
-    let target_file = if cfg!(windows) {
+    let target_file = {
         res_path.set_extension("exe");
         format!("{}.exe", &file_name)
-    } else {
-        file_name
     };
-
     if !config.out_dir.is_dir() {
         create_dir_all(&config.out_dir)?;
     }
