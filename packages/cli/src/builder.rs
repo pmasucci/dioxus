@@ -308,7 +308,7 @@ pub fn build_desktop(config: &CrateConfig, _is_serve: bool) -> Result<BuildResul
     if !config.out_dir.is_dir() {
         create_dir_all(&config.out_dir)?;
     }
-    copy(res_path, &config.out_dir.join(target_file.clone()))
+    copy(res_path.clone(), &config.out_dir.join(target_file.clone()))
         .with_context(|| format!("failed copying {} from {:?}", target_file, res_path))?;
 
     // this code will copy all public file to the output dir
