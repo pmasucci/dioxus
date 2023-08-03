@@ -73,7 +73,7 @@ async fn main() -> anyhow::Result<()> {
 
         Build(opts) => opts
             .build(bin.clone())
-            .map_err(|e| anyhow!("🚫 Building project failed: {}", e)),
+            .map_err(|e| anyhow!("🚫 Building project failed: {:?}", e)),
 
         Clean(opts) => opts
             .clean(bin.clone())
